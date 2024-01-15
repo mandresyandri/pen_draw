@@ -39,6 +39,13 @@ const drawLine = event => {
     }
 }
 
+// Clear the canvas > nouvelle fonctionnalité
+const clearButton = document.querySelector("#clearCanvas");
+clearButton.addEventListener("click", ()=>{
+    // console.log("Le canvas va être effacé !"); // juste pour le debug
+    context.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+})
+
 paintCanvas.addEventListener( 'mousedown', startDrawing );
 paintCanvas.addEventListener( 'mousemove', drawLine );
 paintCanvas.addEventListener( 'mouseup', stopDrawing );
