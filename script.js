@@ -108,37 +108,41 @@ undoButton.addEventListener("click", ()=>{
 
 
 // enregistrement de l'Image en SVG
+const generateSvg = (lineHistory) => {
+let svgContent = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">';
 
-// const generateSvg = (coordinates) => {
-// let svgContent = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">';
+    for (let i = 0; i < lineHistory.length; i += 2) {
+        const [x1, y1] = lineHistory[i];
+        const [x2, y2] = lineHistory[i + 1];
+        
+        svgContent += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="2" />`;
+    }
 
-// for (let i = 0; i < coordinates.length; i += 2) {
-//     const [x1, y1] = coordinates[i];
-//     const [x2, y2] = coordinates[i + 1];
-    
-//     svgContent += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="2" />`;
-// }
+    svgContent += '</svg>';
+    return svgContent;
+};
 
-// svgContent += '</svg>';
-// return svgContent;
-// };
+// téléchargement de l'image en SVG
+const downloadSvg = () => {
+    const svgData = generateSvg(lineHistory);
 
-// const downloadSvg = () => {
-// const svgData = generateSvg(coordinates);
+const blob = new Blob([svgData], { type: 'image/svg+xml' });
+const url = URL.createObjectURL(blob);
 
-// const blob = new Blob([svgData], { type: 'image/svg+xml' });
-// const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'drawing.svg';
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+};
 
-// const a = document.createElement('a');
-// a.href = url;
-// a.download = 'drawing.svg';
-// document.body.appendChild(a);
-// a.click();
-// document.body.removeChild(a);
-// URL.revokeObjectURL(url);
-// };
-
-// downloadSvg();
+let exportButton = document.getElementById("exportCanvas"); 
+exportButton.addEventListener("click", ()=>{
+    downloadSvg();
+    console.log("exported"); // juste pour debug
+})
   
 
 
